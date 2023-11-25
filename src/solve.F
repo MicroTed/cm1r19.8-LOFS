@@ -77,6 +77,7 @@
                    xh,rxh,arh1,arh2,uh,ruh,xf,rxf,arf1,arf2,uf,ruf,   &
                    yh,vh,rvh,yf,vf,rvf,                               &
                    xfref,yfref,dumk1,dumk2,rds,sigma,rdsf,sigmaf,    &
+                   u01d,v01d,                                        &
                    tauh,taus,zh,mh,rmh,c1,c2,tauf,zf,mf,rmf,         &
                    rho0s,pi0s,prs0s,rth0s,                           &
                    wprof,ufrc,vfrc,thfrc,qvfrc,ug,vg,dvdr,           &
@@ -140,6 +141,7 @@
       use adv_module
       use adv_routines , only : movesfc
       use diff2_module
+      use force_module, only: wforce,iforce,iwforce
       use turb_module
       use sound_module
       use sounde_module
@@ -185,6 +187,7 @@
       real, intent(in), dimension(1-ngxy:ny+ngxy+1) :: yfref
       double precision, intent(inout), dimension(kb:ke) :: dumk1,dumk2
       real, intent(in), dimension(kb:ke) :: rds,sigma
+      real, intent(in), dimension(kb:ke) :: u01d,v01d
       real, intent(in), dimension(kb:ke+1) :: rdsf,sigmaf
       real, intent(in), dimension(ib:ie,jb:je,kb:ke) :: tauh,taus,zh,mh,rmh,c1,c2
       real, intent(in), dimension(ib:ie,jb:je,kb:ke+1) :: tauf,zf,mf,rmf
@@ -2266,6 +2269,16 @@
         enddo
 
       ENDIF  termod1
+
+! w-forcing
+      IF ( iforce > 0 .and. iwforce > 0 ) THEN
+          CALL WFORCE (xh,rxh,uh,ruh,xf,rxf,uf,ruf,yh,vh,rvh,yf,vf,rvf,zf, &
+                       dttmp,wa,w3d,wten,ua,u3d,uten,dum1,         &
+                       mtime,       &
+                       u01d,v01d,sigma,sigmaf)
+      
+      
+      ENDIF
 
 !--------------------------------------------------------------------
 !  Pressure equation

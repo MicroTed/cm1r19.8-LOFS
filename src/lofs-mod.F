@@ -64,6 +64,9 @@ ptb_vediff_acc,ptb_mp_acc,ptb_rdamp_acc,ptb_rad_acc,ptb_div_acc,ptb_diss_acc,&
 ptb_pbl_acc,ptb_subs_acc,td_efall_acc,tt_cond_acc,tt_evac_acc,tt_evar_acc,&
 tt_dep_acc,tt_subl_acc,tt_melt_acc,tt_frz_acc
 
+logical :: we_are_dumping_hist_data,we_are_doing_new_cycle,we_are_saving_2d_data
+logical :: we_are_dumping_restarts
+
 namelist /zfp_accuracy/ u_acc,v_acc,w_acc,uinterp_acc,vinterp_acc,winterp_acc,&
 upert_acc,vpert_acc,th_acc,thpert_acc,thrhopert_acc,prs_acc,prespert_acc,pi_acc,pipert_acc,&
 rho_acc,rhopert_acc,tke_acc,km_acc,kh_acc,qv_acc,qvpert_acc,dbz_acc,&
@@ -84,10 +87,6 @@ ptb_vadv_acc,ptb_hturb_acc,ptb_vturb_acc,ptb_hidiff_acc,ptb_vidiff_acc,ptb_hedif
 ptb_vediff_acc,ptb_mp_acc,ptb_rdamp_acc,ptb_rad_acc,ptb_div_acc,ptb_diss_acc,&
 ptb_pbl_acc,ptb_subs_acc,td_efall_acc,tt_cond_acc,tt_evac_acc,tt_evar_acc,&
 tt_dep_acc,tt_subl_acc,tt_melt_acc,tt_frz_acc
-
-
-logical :: we_are_dumping_hist_data,we_are_doing_new_cycle,we_are_saving_2d_data
-logical :: we_are_dumping_restarts
 
 real, dimension(:), allocatable :: MCMrootranks,x1dranks,y1dranks,myMCMxranks,myMCMyranks
 real, dimension (:,:), allocatable :: var2d

@@ -221,6 +221,14 @@
 
 !-----------------------------------------------------------------------
 
+      integer, parameter :: maxbubble = 10
+      integer :: numbub = 0
+      real    :: tbubrandpert = 0
+      real, dimension(maxbubble) :: tbub = 1.0, xcbub,ycbub,zcbub,            &
+                                    xradbub,yradbub,zradbub
+
+!-----------------------------------------------------------------------
+
       character(len=70) output_path,output_basename,string,sstring,statfile
 
 !-----------------------------------------------------------------------
@@ -266,6 +274,8 @@
       namelist /param6/ stretch_z,ztop,str_bot,str_top,dz_bot,dz_top
       namelist /param7/ bc_temp,ptc_top,ptc_bot,viscosity,pr_num
       namelist /param8/ var1,var2,var3,var4,var5,var6,var7,var8,var9,var10
+      namelist /bubble/ numbub,tbub,tbubrandpert,xcbub,ycbub,zcbub,           &
+                         xradbub,yradbub,zradbub
       namelist /param9/                                                       &
               output_path,output_basename,output_format,output_filetype,      &
               output_interp,                                                  &

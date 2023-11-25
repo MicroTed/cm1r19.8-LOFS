@@ -23,6 +23,29 @@
                        ww31,ww32,we31,we32,ws31,ws32,wn31,wn32)
       use input
       use constants
+      use force_module, only :                  &
+                        iforce,         &
+                        twstrt,twstop,  &
+!                        iforcetyp,      &
+                        nwfor,          &
+                        iwforce,        &
+                        iwshap,         &
+!                        ivshap,         &
+!                        iushap,         &
+!                        iqshap,         &
+!                        itshap,         &
+!                        isshap,isslcl,  &
+                        wfmeso,         &
+                        ufmeso,umaxmeso,&
+                        xwfcen,         &
+                        ywfcen,         &
+                        zwfcen,         &
+                        xwfrad,         &
+                        ywfrad,         &
+                        zwfrad,         &
+                        xwfmov,         &
+                        ywfmov,         &
+                        zwfmov 
       use init_terrain_module
       use bc_module
       use comm_module
@@ -147,6 +170,30 @@
                         dmrauto,        &
                         ioldlimiter
 
+   NAMELIST /forcing/                   &
+                        iforce,         &
+                        twstrt,twstop,  &
+!                        iforcetyp,      &
+                        nwfor,          &
+                        iwforce,        &
+                        iwshap,         &
+!                        ivshap,         &
+!                        iushap,         &
+!                        iqshap,         &
+!                        itshap,         &
+!                        isshap,isslcl,  &
+                        wfmeso,         &
+                        ufmeso,umaxmeso,&
+                        xwfcen,         &
+                        ywfcen,         &
+                        zwfcen,         &
+                        xwfrad,         &
+                        ywfrad,         &
+                        zwfrad,         &
+                        xwfmov,         &
+                        ywfmov,         &
+                        zwfmov         
+
 !--------------------------------------------------------------
 
 #ifdef MPI
@@ -207,6 +254,14 @@
       IF ( ptype .ge. 26 ) THEN
          read(20,nml=nssl2mom_params)
       ENDIF
+
+      rewind(20)
+      read(20,nml=forcing,end=722)
+722   continue
+      rewind(20)
+      read(20,nml=bubble,end=723)
+723   continue
+      rewind(20)
       close(unit=20)
 
 #ifdef MPI
@@ -542,6 +597,36 @@
       call MPI_BCAST(dmrauto   ,1,MPI_INTEGER,0,MPI_COMM_CM1,ierr)
       call MPI_BCAST(ioldlimiter,1,MPI_INTEGER,0,MPI_COMM_CM1,ierr)
       ENDIF
+
+      call MPI_BCAST(numbub     ,1,MPI_INTEGER,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(tbub     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(tbubrandpert     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(xcbub     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(ycbub     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(zcbub     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(xradbub     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(yradbub     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(zradbub     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+
+      call MPI_BCAST(iforce     ,1,MPI_INTEGER,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(nwfor     ,1,MPI_INTEGER,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(iwforce     ,1,MPI_INTEGER,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(iwshap     ,1,MPI_INTEGER,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(twstrt     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(twstop     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(wfmeso     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(ufmeso     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(umaxmeso     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(xwfcen     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(ywfcen     ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(zwfcen  ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(xwfrad  ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(ywfrad  ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(zwfrad  ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(xwfmov  ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(ywfmov  ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+      call MPI_BCAST(zwfmov  ,1,MPI_REAL,0,MPI_COMM_CM1,ierr)
+
 #endif
 
 !-----------------------------------------------------------------------
