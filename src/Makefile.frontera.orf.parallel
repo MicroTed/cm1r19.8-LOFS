@@ -18,7 +18,7 @@ SRC   = lofs-newcomm.F lofs-mod.F constants.F input.F adv.F adv_routines.F anelp
 		misclibs.F morrison.F module_mp_nssl_2mom.F param.F parcel.F pdef.F pdcomp.F poiss.F sfcphys.F singleton.F radiation_driver.F \
 		solve.F sounde.F sound.F soundns.F soundcb.F statpack.F stopcm1.F thompson.F module_mp_radar.F turb.F turbdiag.F \
 		radlib3d.F irrad3d.F sorad3d.F radtrns3d.F getcape.F ysu.F sfclay.F sfclayrev.F slab.F oml.F \
-		module_ra_etc.F module_ra_rrtmg_lw.F module_ra_rrtmg_sw.F
+		module_ra_etc.F module_ra_rrtmg_lw.F module_ra_rrtmg_sw.F wforce.F
 
 OBJS = $(addsuffix .o, $(basename $(SRC)))
 
@@ -72,13 +72,13 @@ interp_routines.o: constants.o input.o
 irrad3d.o: radlib3d.o
 kessler.o: constants.o input.o
 lfoice.o: input.o
-maxmin.o: input.o
+maxmin.o: input.o lofs-mod.o
 misclibs.o: constants.o input.o goddard.o lfoice.o
 module_mp_radar.o: module_ra_etc.o
 module_ra_rrtmg_lw.o: module_ra_etc.o
 module_ra_rrtmg_sw.o: module_ra_etc.o module_ra_rrtmg_lw.o
 morrison.o: input.o constants.o
-param.o: constants.o input.o init_terrain.o bc.o comm.o thompson.o morrison.o module_mp_nssl_2mom.o goddard.o lfoice.o
+param.o: constants.o input.o init_terrain.o bc.o comm.o thompson.o morrison.o module_mp_nssl_2mom.o goddard.o lfoice.o wforce.o
 parcel.o: constants.o input.o cm1libs.o bc.o comm.o
 pdef.o: input.o bc.o comm.o
 pdcomp.o: constants.o input.o adv.o poiss.o
@@ -86,7 +86,7 @@ poiss.o: input.o singleton.o
 radiation_driver.o: constants.o input.o bc.o radtrns3d.o module_ra_etc.o module_ra_rrtmg_lw.o module_ra_rrtmg_sw.o
 radtrns3d.o: irrad3d.o sorad3d.o radlib3d.o
 sfcphys.o: constants.o input.o cm1libs.o
-solve.o: constants.o input.o bc.o comm.o adv.o adv_routines.o diff2.o turb.o sound.o sounde.o soundns.o soundcb.o anelp.o misclibs.o kessler.o thompson.o morrison.o module_mp_nssl_2mom.o goddard.o lfoice.o testcase_simple_phys.o parcel.o pdcomp.o
+solve.o: constants.o input.o bc.o comm.o adv.o adv_routines.o diff2.o turb.o sound.o sounde.o soundns.o soundcb.o anelp.o misclibs.o kessler.o thompson.o morrison.o module_mp_nssl_2mom.o goddard.o lfoice.o testcase_simple_phys.o parcel.o pdcomp.o wforce.o
 sorad3d.o: radlib3d.o
 sound.o: constants.o input.o misclibs.o bc.o comm.o
 sounde.o: constants.o input.o misclibs.o bc.o comm.o
