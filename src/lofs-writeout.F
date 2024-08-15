@@ -461,7 +461,7 @@
     endif
 
     if(output_rho.eq.1) then
-        varname="rhopert"
+        varname="rho"
         description = "density of dry air"
         units = "kg/m^3"
         var3d(:,:,:)=rho(1:ni,1:nj,1:nk)
