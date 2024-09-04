@@ -460,12 +460,20 @@
         call h5_write_3d_float_scalar(threed_group_id,var3d,ninjnktype,v_acc)
     endif
 
+    if(output_rho.eq.1) then
+        varname="rho"
+        description = "density of dry air"
+        units = "kg/m^3"
+        var3d(:,:,:)=rho(1:ni,1:nj,1:nk)
+        call h5_write_3d_float_scalar(threed_group_id,var3d,ninjnktype,rho_acc)
+    endif
+
     if(output_rhopert.eq.1) then
         varname="rhopert"
-        description = "density perturbation from base state"
+        description = "density (of dry air) perturbation from base state"
         units = "kg/m^3"
         var3d(:,:,:)=rho(1:ni,1:nj,1:nk)-rho0(1:ni,1:nj,1:nk)
-        call h5_write_3d_float_scalar(threed_group_id,var3d,ninjnktype,v_acc)
+        call h5_write_3d_float_scalar(threed_group_id,var3d,ninjnktype,rhopert_acc)
     endif
 
     if(output_vinterp.eq.1) then
